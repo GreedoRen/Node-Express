@@ -18,6 +18,7 @@
   "homepage": "https://github.com/GreedoRen/Node-Express#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "joi": "^13.1.0",
     "nodemon": "^2.0.4"
   }
 }
