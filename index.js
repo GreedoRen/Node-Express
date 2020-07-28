@@ -36,7 +36,7 @@ app.post('/api/courses', (req, res) => {
         name: req.body.name
     }
     courses.push(course)
-    res.send(course) // по стандарту переходим на запушенный курс
+    res.send(course)
 })
 
 app.put('/api/courses/:id', (req, res) => {
@@ -51,16 +51,6 @@ app.put('/api/courses/:id', (req, res) => {
     res.send(course)
 })
 
-function validateCourse(course) {
-    const schema = {
-        name: Joi.string().min(3).required()
-    }
-
-    const val = Joi.validate(course, schema)
-
-    return val
-}
-
 app.delete('/api/courses/:id', (req, res) => {
     const course = courses.find(index => index.id === parseInt(req.params.id))
     if (!course) return res.status(404).send('Invalid course ID')
@@ -69,8 +59,15 @@ app.delete('/api/courses/:id', (req, res) => {
     courses.splice(index)
 
     res.send(course)
-
 })
+
+function validateCourse(course) {
+    const schema = {
+        name: Joi.string().min(3).required()
+    }
+
+    return val = Joi.validate(course, schema)
+}
 
 app.listen(3000, () => {
     console.log('Listening on port 3000')
