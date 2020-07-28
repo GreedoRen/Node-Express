@@ -18,7 +18,9 @@
   "homepage": "https://github.com/GreedoRen/Node-Express#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "helmet": "^3.23.3",
     "joi": "^13.1.0",
+    "morgan": "^1.10.0",
     "nodemon": "^2.0.4"
   }
 }
