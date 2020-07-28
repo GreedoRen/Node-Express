@@ -1,5 +1,6 @@
 const express = require('express')
 const Joi = require('joi')
+const logger = require('./logger')
 
 const app = express()
 const courses = [
@@ -11,6 +12,8 @@ const courses = [
 ]
 
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+app.use(express.static('public'))
 
 app.get('/', (req, res) => {
     res.send('Hellow world')
