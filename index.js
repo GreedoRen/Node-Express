@@ -22,6 +22,8 @@ app.use(helmet())
 //config
 console.log(`Application name: ${config.get('name')}`)
 console.log(`Application name: ${config.get('mail.host')}`)
+// console.log(`Application name: ${config.get('mail.password')}`)
+
 
 if (app.get('env') === 'development') {
     app.use(morgan('tiny'))
