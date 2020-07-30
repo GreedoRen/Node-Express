@@ -15,6 +15,8 @@ const courses = [
     { id: 5, name: 'course_5' }
 ]
 
+app.set('view engine', 'pug')
+
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
