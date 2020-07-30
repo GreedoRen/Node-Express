@@ -16,6 +16,7 @@ const courses = [
 ]
 
 app.set('view engine', 'pug')
+app.set('views', './views') //default
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
