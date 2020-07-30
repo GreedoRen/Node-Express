@@ -6,6 +6,7 @@ const morgan = require('morgan')
 const logger = require('./logger')
 const debug = require('debug')('app:startup')
 const courses = require('./routes/courses')
+const home = require('./routes/home')
 const app = express()
 
 app.set('view engine', 'pug')
@@ -16,24 +17,21 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
 app.use(helmet())
 app.use('/api/courses', courses)
+app.use('/', home)
 
 //config
 console.log(`Application name: ${config.get('name')}`)
 console.log(`Application name: ${config.get('mail.host')}`)
-// console.log(`Application name: ${config.get('mail.password')}`)
-
 
 if (app.get('env') === 'development') {
     app.use(morgan('tiny'))
-    //console.log(startupDebugger)
-    // startupDebugger.enabled = true
+
     debug('Morgan enabled') //console.log()
 }
 
-app.get('/', (req, res) => {
-    res.render('index', { title: 'My Express App', message: 'Hello World' })
-})
+app.use(logger)
 
-app.listen(3000, () => {
+const port = process.env.PORT || 3000
+app.listen(port, () => {
     console.log('Listening on port 3000')
 })
