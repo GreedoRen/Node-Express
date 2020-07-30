@@ -4,8 +4,7 @@ const config = require('config')
 const helmet = require('helmet')
 const morgan = require('morgan')
 const logger = require('./logger')
-const startupDebugger = require('debug')('app:startup')
-const dbDebugger = require('debug')('app:db')
+const debug = require('debug')('app:startup')
 
 const app = express()
 const courses = [
@@ -30,13 +29,9 @@ console.log(`Application name: ${config.get('mail.host')}`)
 if (app.get('env') === 'development') {
     app.use(morgan('tiny'))
     //console.log(startupDebugger)
-    startupDebugger.enabled = true
-    startupDebugger('Morgan enabled')
+    // startupDebugger.enabled = true
+    debug('Morgan enabled') //console.log()
 }
-
-//db
-dbDebugger('Connected to DB')
-
 
 app.get('/', (req, res) => {
     res.send('Hellow world')
