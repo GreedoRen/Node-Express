@@ -37,7 +37,7 @@ if (app.get('env') === 'development') {
 }
 
 app.get('/', (req, res) => {
-    res.send('Hellow world')
+    res.render('index', { title: 'My Express App', message: 'Hello World' })
 })
 
 app.get('/api/courses', (req, res) => {
