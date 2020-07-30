@@ -5,15 +5,8 @@ const helmet = require('helmet')
 const morgan = require('morgan')
 const logger = require('./logger')
 const debug = require('debug')('app:startup')
-
+const courses = require('./routes/courses')
 const app = express()
-const courses = [
-    { id: 1, name: 'course_1' },
-    { id: 2, name: 'course_2' },
-    { id: 3, name: 'course_3' },
-    { id: 4, name: 'course_4' },
-    { id: 5, name: 'course_5' }
-]
 
 app.set('view engine', 'pug')
 app.set('views', './views') //default
@@ -22,6 +15,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
 app.use(helmet())
+app.use('/api/courses', courses)
 
 //config
 console.log(`Application name: ${config.get('name')}`)
