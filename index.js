@@ -10,7 +10,7 @@ const home = require('./routes/home')
 const app = express()
 
 app.set('view engine', 'pug')
-app.set('views', './views') //default
+app.set('views', './views')
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
@@ -26,7 +26,7 @@ console.log(`Application name: ${config.get('mail.host')}`)
 if (app.get('env') === 'development') {
     app.use(morgan('tiny'))
 
-    debug('Morgan enabled') //console.log()
+    debug('Morgan enabled')
 }
 
 app.use(logger)
