@@ -15,9 +15,9 @@ const Course = mongoose.model('Course', courseSchema)
 
 async function createCourse() {
     const course = new Course({
-        name: 'Node.js Course',
+        name: 'React Course',
         author: 'GR',
-        tags: ['node', 'backend'],
+        tags: ['react', 'frontend'],
         isPublished: true
     })
 
@@ -25,4 +25,9 @@ async function createCourse() {
     console.log(result)
 }
 
-createCourse()
+async function getCourses() {
+    const courses = await Course.find({ author: 'GR', isPublished: true }).limit(10).sort({ name: 1 }).select({ name: 1, tags: 1 })
+    console.log(courses)
+}
+
+getCourses()
