@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-mongoose.connect('mongodb://localhost/playground', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb://localhost/mongo-exercises', { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('Connected to MongoDB'))
     .catch(e => console.log('MongoErr: ', e))
 
@@ -8,7 +8,8 @@ const courseSchema = new mongoose.Schema({
     author: String,
     tags: [String],
     date: { type: Date, default: Date.now },
-    isPublished: Boolean
+    isPublished: Boolean,
+    price: Number
 })
 
 const Course = mongoose.model('Course', courseSchema)
@@ -18,7 +19,9 @@ async function createCourse() {
         name: 'React Course',
         author: 'Greedo Ren',
         tags: ['react', 'frontend'],
-        isPublished: true
+        date: `${Date.now()}`,
+        isPublished: true,
+        price: 16
     })
 
     const result = await course.save()
@@ -29,13 +32,17 @@ async function getCourses() {
     const pageNumber = 2
     const pageSize = 10
 
-    const courses = await Course
-        .find({ author: 'GR', isPublished: true })
-        .skip((pageNumber - 1) * pageSize)
-        .limit(pageSize)
+    return await Course
+        .find({ tags: 'backend', isPublished: true })
         .sort({ name: 1 })
         .select({ name: 1, tags: 1 })
+}
+
+async function run() {
+    const courses = await getCourses()
     console.log(courses)
 }
 
-getCourses()
+run()
+
+
