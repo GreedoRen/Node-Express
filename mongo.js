@@ -16,7 +16,7 @@ const Course = mongoose.model('Course', courseSchema)
 async function createCourse() {
     const course = new Course({
         name: 'React Course',
-        author: 'GR',
+        author: 'Greedo Ren',
         tags: ['react', 'frontend'],
         isPublished: true
     })
@@ -26,8 +26,20 @@ async function createCourse() {
 }
 
 async function getCourses() {
-    const courses = await Course.find({ author: 'GR', isPublished: true }).limit(10).sort({ name: 1 }).select({ name: 1, tags: 1 })
+
+
+    const courses = await Course
+        // .find({ author: 'GR', isPublished: true })
+        // .find({price: {$in: [10, 15, 20]}})
+        // .or([{ author: 'GR' }, { isPublished: true }])
+        .find({ author: /^Greedo/ }) //start
+        .find({ author: /Ren$/i }) //end
+        .find({ author: /.*Greedo.*/i }) //contains
+
+        .limit(10)
+        .sort({ name: 1 })
+        .select({ name: 1, tags: 1 })
     console.log(courses)
 }
 
-getCourses()
+createCourse()
