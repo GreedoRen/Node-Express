@@ -26,20 +26,16 @@ async function createCourse() {
 }
 
 async function getCourses() {
-
+    const pageNumber = 2
+    const pageSize = 10
 
     const courses = await Course
-        // .find({ author: 'GR', isPublished: true })
-        // .find({price: {$in: [10, 15, 20]}})
-        // .or([{ author: 'GR' }, { isPublished: true }])
-        .find({ author: /^Greedo/ }) //start
-        .find({ author: /Ren$/i }) //end
-        .find({ author: /.*Greedo.*/i }) //contains
-
-        .limit(10)
+        .find({ author: 'GR', isPublished: true })
+        .skip((pageNumber - 1) * pageSize)
+        .limit(pageSize)
         .sort({ name: 1 })
         .select({ name: 1, tags: 1 })
     console.log(courses)
 }
 
-createCourse()
+getCourses()
