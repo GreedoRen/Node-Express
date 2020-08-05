@@ -33,9 +33,9 @@ async function getCourses() {
     const pageSize = 10
 
     return await Course
-        .find({ tags: 'backend', isPublished: true })
-        .sort({ name: 1 })
-        .select({ name: 1, tags: 1 })
+        .find({ tags: { $in: ['frontend', 'backend'] }, isPublished: true })
+        .sort('-price')
+        .select({ name: 1, author: 1 })
 }
 
 async function run() {
