@@ -5,9 +5,16 @@ mongoose.connect('mongodb://localhost/playground', { useNewUrlParser: true, useU
 
 const courseSchema = new mongoose.Schema({
     name: { type: String, required: true, minlength: 5, maxlength: 255 },
-    category: { type: String, required: true, enum: ['web, mobile, network'] },
+    category: { type: String, required: true, enum: ['web', 'mobile', 'network'] },
     author: String,
-    tags: [String],
+    tags: {
+        type: Array, validate: {
+            validator: function (v) {
+                return v && v.length > 0
+            },
+            message: 'A course should have at least one tag'
+        }
+    },
     date: { type: Date, default: Date.now },
     isPublished: Boolean,
     price: {
@@ -23,9 +30,9 @@ const Course = mongoose.model('Course', courseSchema)
 async function createCourse() {
     const course = new Course({
         name: 'React Course',
-        category: '-',
+        category: 'web',
         author: 'Greedo Ren',
-        tags: ['react', 'frontend'],
+        tags: ['react'],
         isPublished: true,
         price: 15
     })
