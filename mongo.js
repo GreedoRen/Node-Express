@@ -4,11 +4,25 @@ mongoose.connect('mongodb://localhost/playground', { useNewUrlParser: true, useU
     .catch(e => console.log('MongoErr: ', e))
 
 const courseSchema = new mongoose.Schema({
-    name: String,
+    name: { type: String, required: true, minlength: 5, maxlength: 255 },
+    category: { type: String, required: true, enum: ['web', 'mobile', 'network'] },
     author: String,
-    tags: [String],
+    tags: {
+        type: Array, validate: {
+            validator: function (v) {
+                return v && v.length > 0
+            },
+            message: 'A course should have at least one tag'
+        }
+    },
     date: { type: Date, default: Date.now },
-    isPublished: Boolean
+    isPublished: Boolean,
+    price: {
+        type: Number,
+        required: function () { return this.isPublished },
+        min: 10,
+        max: 200
+    }
 })
 
 const Course = mongoose.model('Course', courseSchema)
@@ -16,13 +30,21 @@ const Course = mongoose.model('Course', courseSchema)
 async function createCourse() {
     const course = new Course({
         name: 'React Course',
+        category: 'web',
         author: 'Greedo Ren',
-        tags: ['react', 'frontend'],
-        isPublished: true
+        tags: ['react'],
+        isPublished: true,
+        price: 15
     })
 
-    const result = await course.save()
-    console.log(result)
+    try {
+        //await course.validate()
+        const result = await course.save()
+        console.log(result)
+    } catch (error) {
+        console.log(error.message)
+    }
+
 }
 
 async function getCourses() {
@@ -38,4 +60,21 @@ async function getCourses() {
     console.log(courses)
 }
 
-getCourses()
+async function updateCourse(id) {
+    const course = await Course.findByIdAndUpdate(id, {
+        $set: {
+            author: 'Jason',
+            isPublished: false
+        }
+    }, { new: true })
+    console.log(course)
+}
+
+async function removeCourse(id) {
+    //const result = await Course.deleteMany({ _id: id })
+    const course = await Course.findByIdAndRemove(id)
+    console.log(course)
+}
+
+//removeCourse('5f271980cd75911710a78843')
+createCourse()
