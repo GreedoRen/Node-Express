@@ -49,8 +49,9 @@ async function updateCourse(id) {
 }
 
 async function removeCourse(id) {
-    const result = await Course.deleteOne({ _id: id })
-    console.log(result)
+    //const result = await Course.deleteMany({ _id: id })
+    const course = await Course.findByIdAndRemove(id)
+    console.log(course)
 }
 
 removeCourse('5f271980cd75911710a78843')
