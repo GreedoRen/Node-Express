@@ -4,7 +4,7 @@ mongoose.connect('mongodb://localhost/playground', { useNewUrlParser: true, useU
     .catch(e => console.log('MongoErr: ', e))
 
 const courseSchema = new mongoose.Schema({
-    name: String,
+    name: { type: String, required: true },
     author: String,
     tags: [String],
     date: { type: Date, default: Date.now },
@@ -15,14 +15,20 @@ const Course = mongoose.model('Course', courseSchema)
 
 async function createCourse() {
     const course = new Course({
-        name: 'React Course',
+        // name: 'React Course',
         author: 'Greedo Ren',
         tags: ['react', 'frontend'],
         isPublished: true
     })
 
-    const result = await course.save()
-    console.log(result)
+    try {
+        //await course.validate()
+        const result = await course.save()
+        console.log(result)
+    } catch (error) {
+        console.log(error.message)
+    }
+
 }
 
 async function getCourses() {
@@ -54,4 +60,5 @@ async function removeCourse(id) {
     console.log(course)
 }
 
-removeCourse('5f271980cd75911710a78843')
+//removeCourse('5f271980cd75911710a78843')
+createCourse()
