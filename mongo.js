@@ -5,7 +5,7 @@ mongoose.connect('mongodb://localhost/playground', { useNewUrlParser: true, useU
 
 const courseSchema = new mongoose.Schema({
     name: { type: String, required: true, minlength: 5, maxlength: 255 },
-    category: { type: String, required: true, enum: ['web', 'mobile', 'network'] },
+    category: { type: String, required: true, enum: ['web', 'mobile', 'network'], lowercase: true, trim: true },
     author: String,
     tags: {
         type: Array, validate: {
@@ -25,7 +25,9 @@ const courseSchema = new mongoose.Schema({
         type: Number,
         required: function () { return this.isPublished },
         min: 10,
-        max: 200
+        max: 200,
+        get: v => Math.round(v),
+        set: v => Math.round(v)
     }
 })
 
@@ -34,11 +36,11 @@ const Course = mongoose.model('Course', courseSchema)
 async function createCourse() {
     const course = new Course({
         name: 'React Course',
-        category: 'web',
+        category: 'Web',
         author: 'Greedo Ren',
-        tags: ['react'],
+        tags: ['frontend'],
         isPublished: true,
-        price: 15
+        price: 15.2
     })
 
     try {
