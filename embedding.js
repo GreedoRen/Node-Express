@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { func } = require('joi');
 
 mongoose.connect('mongodb://localhost/playground')
   .then(() => console.log('Connected to MongoDB...'))
@@ -14,13 +15,13 @@ const Author = mongoose.model('Author', authorSchema);
 
 const Course = mongoose.model('Course', new mongoose.Schema({
   name: String,
-  author: authorSchema
+  authors: [authorSchema]
 }));
 
-async function createCourse(name, author) {
+async function createCourse(name, authors) {
   const course = new Course({
     name,
-    author
+    authors
   });
 
   const result = await course.save();
@@ -40,5 +41,18 @@ async function updateAuthor(courseId) {
   })
 }
 
-updateAuthor('5f397d752250e91780816115')
-//createCourse('Node Course', new Author({ name: 'Mosh' }));
+async function addAuthor(courseId, author) {
+  const course = await Course.findById(courseId)
+  course.authors.push(author)
+  course.save()
+}
+
+async function removeAuthor(courseId, authorId) {
+  const course = await Course.findById(courseId)
+  const author = course.authors.id(authorId)
+  author.remove()
+  course.save()
+}
+
+
+removeAuthor('5f398b65a2122d16ecd2d714', '5f398c6b0504691678a6d70e')
