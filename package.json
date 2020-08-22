@@ -17,6 +17,9 @@
   },
   "homepage": "https://github.com/GreedoRen/Node-Express#readme",
   "dependencies": {
+    "bcrypt": "^5.0.0",
+    "chart": "^0.1.2",
+    "chart.js": "^2.9.3",
     "config": "^3.3.1",
     "debug": "^4.1.1",
     "express": "^4.17.1",
