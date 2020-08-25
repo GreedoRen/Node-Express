@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const config = require('config')
 const Joi = require('joi')
 Joi.objectId = require('joi-objectid')(Joi)
 const genres = require('./routes/genres')
@@ -9,6 +10,11 @@ const movies = require('./routes/movies')
 const auth = require('./routes/auth')
 const express = require('express')
 const app = express()
+
+if (!config.get('jwtPrivateKey')) {
+    console.log('JWT is not defined!')
+    process.exit(1)
+}
 
 mongoose.connect('mongodb://localhost/vidly')
     .then(() => console.log('Connect to MongoDB'))
