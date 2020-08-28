@@ -4,7 +4,6 @@ const jwt = require('jsonwebtoken')
 const config = require('config')
 const bcrypt = require('bcrypt')
 const express = require('express')
-const mongoose = require('mongoose')
 const router = express.Router()
 
 router.post('/', async (req, res) => {
